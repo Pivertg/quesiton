@@ -1,11 +1,4 @@
-/* Importation de votre police personnalisée */
-@font-face {
-    font-family: 'MaPoliceAmour';
-    src: url('fonts/HachicroUndertaleBattleFontRegular-L3zlg.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap; /* Améliore le chargement */
-}
+/* Polices amusantes système */
 
 * {
     margin: 0;
@@ -24,8 +17,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Utilisez votre police personnalisée avec des fallbacks */
-    font-family: 'MaPoliceAmour', 'Crimson Text', serif;
+    /* Police amusante pour le body */
+    font-family: 'Comic Sans MS', 'Chalkduster', 'Marker Felt', cursive;
     overflow: hidden;
 }
 
