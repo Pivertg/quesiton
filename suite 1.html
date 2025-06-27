@@ -1,48 +1,67 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Questions du Cœur</title>
-    <link rel="stylesheet" href="stlye 2.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Questions du Cœur</title>
+  <link rel="stylesheet" href="stlye 2.css">
 </head>
 <body>
-    <!-- Particules flottantes -->
-    <div class="particles" id="particles"></div>
-    
-    <div class="container">
-        <!-- Page du questionnaire -->
-        <div class="brutalist-card" id="questionCard">
-            <div class="brutalist-card__header">
-                <div class="brutalist-card__icon">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                    </svg>
-                </div>
-                <div class="brutalist-card__alert">Question du Cœur</div>
-            </div>
-            
-            <div class="question-display" id="questionDisplay">
-                Penses-tu à moi quand les étoiles brillent dans la nuit sombre ?
-            </div>
-            
-            <div class="brutalist-card__actions">
-                <button class="brutalist-card__button brutalist-card__button--oui" onclick="answerQuestion('oui')">
-                    Oui
-                </button>
-                <button class="brutalist-card__button brutalist-card__button--non" onclick="answerQuestion('non')">
-                    Non
-                </button>
-            </div>
-        </div>
-        
-        <!-- Page de résultat -->
-        <div class="result-page" id="resultPage">
-            <h1 class="result-title" id="resultTitle"></h1>
-            <div class="result-message" id="resultMessage"></div>
-            <button class="restart-btn" onclick="restart()">Nouvelle Question</button>
-        </div>
+  <!-- Particules flottantes -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Écran de chargement -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loader">
+      <div class="box box0"><div></div></div>
+      <div class="box box1"><div></div></div>
+      <div class="box box2"><div></div></div>
+      <div class="box box3"><div></div></div>
+      <div class="box box4"><div></div></div>
+      <div class="box box5"><div></div></div>
+      <div class="box box6"><div></div></div>
+      <div class="box box7"><div></div></div>
+      <div class="ground"><div></div></div>
     </div>
-    <script src="suite.js"></script>
+    <div class="loading-text">Préparation de la prochaine question...</div>
+  </div>
+
+  <div class="container">
+    <!-- Page du questionnaire -->
+    <div class="brutalist-card" id="questionCard">
+      <div class="progress-counter" id="progressCounter">Question 1/8</div>
+      <div class="brutalist-card__header">
+        <div class="brutalist-card__icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 
+              2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 
+              14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 
+              6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+        </div>
+        <div class="brutalist-card__alert">Question du Cœur</div>
+      </div>
+      <div class="question-display" id="questionDisplay">
+        Penses-tu à moi quand les étoiles brillent dans la nuit sombre ?
+      </div>
+      <div class="brutalist-card__actions">
+        <button class="brutalist-card__button brutalist-card__button--oui" onclick="answerQuestion('oui')" id="btnOui">Oui</button>
+        <button class="brutalist-card__button brutalist-card__button--non" onclick="answerQuestion('non')" id="btnNon">Non</button>
+      </div>
+    </div>
+
+    <!-- Page de fin -->
+    <div class="end-page" id="endPage">
+      <h1 class="end-title">✨ Fin du Questionnaire ✨</h1>
+      <div class="end-message">
+        Merci d'avoir répondu à toutes mes questions du cœur...<br><br>
+        Vos réponses ont été envoyées et sont précieusement conservées.<br><br>
+        💕 Que nos âmes restent connectées dans l'éternité... 💕
+      </div>
+      <button class="restart-btn" onclick="restart()">Recommencer le Questionnaire</button>
+    </div>
+  </div>
+
+  <script src="suite.js"></script>
 </body>
 </html>
