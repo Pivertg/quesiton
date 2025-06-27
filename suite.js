@@ -5,38 +5,97 @@ const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/138792927002597796
 
 // Questions prédéfinies
 const questions = [
-    "Penses-tu à moi quand les étoiles brillent dans la nuit sombre ?",
-    "Ton cœur bat-il plus fort quand nos regards se croisent ?",
-    "Rêves-tu de moi dans tes songes les plus secrets ?",
-    "Est-ce que mes mots résonnent encore dans ton âme ?",
-    "Sens-tu cette connexion mystérieuse qui nous unit ?",
-    "Serais-tu prêt(e) à tout abandonner pour notre amour ?",
-    "Crois-tu au destin qui nous a réunis dans cette obscurité ?",
-    "Mon absence te fait-elle souffrir comme elle me tourmente ?"
+    "Serais tu te donner a fond pour le personne que tu aime ?",
+    "Une relation a distace te dérengerais ?",
+    "Veux tu sortie avec moi ?"
+];
+
+// Questions supplémentaires si OUI à la dernière question
+const extraQuestions = [
+    "Quel est ton plat préféré ?",
+    "Quelle est ta couleur favorite ?",
+    "Où aimerais-tu partir en voyage ?"
 ];
 
 let currentQuestionIndex = 0;
+let isLoading = false;
+let usingExtraQuestions = false;
 
 // FONCTION PRINCIPALE - RÉPONDRE À UNE QUESTION
 function answerQuestion(answer) {
-    const currentQuestion = questions[currentQuestionIndex];
-    
+    if (isLoading) return; // Empêche double clic
+    // Empêche de répondre si toutes les questions sont finies
+    if (!usingExtraQuestions && currentQuestionIndex >= questions.length) return;
+    if (usingExtraQuestions && currentQuestionIndex >= extraQuestions.length) return;
+
+    // Détermine la question courante
+    const currentQuestion = usingExtraQuestions ? extraQuestions[currentQuestionIndex] : questions[currentQuestionIndex];
     // 1. ENVOYER VERS DISCORD
     sendToDiscord(currentQuestionIndex + 1, currentQuestion, answer);
-    
-    // 2. PASSER DIRECTEMENT À LA QUESTION SUIVANTE
-    currentQuestionIndex = (currentQuestionIndex + 1) % questions.length;
-    
-    // 3. AFFICHER LA NOUVELLE QUESTION AVEC UNE ANIMATION
-    const questionDisplay = document.getElementById('questionDisplay');
-    
-    // Animation de transition
-    questionDisplay.style.animation = 'fadeOut 0.3s ease-out forwards';
-    
+
+    // 2. Animation de chargement
+    isLoading = true;
+    showLoadingScreen();
     setTimeout(() => {
-        displayCurrentQuestion();
-        questionDisplay.style.animation = 'fadeIn 0.3s ease-out forwards';
-    }, 300);
+        hideLoadingScreen();
+        // Cas spécial : dernière question principale
+        if (!usingExtraQuestions && currentQuestionIndex === questions.length - 1) {
+            if (answer === 'oui') {
+                // Passe aux questions supplémentaires
+                usingExtraQuestions = true;
+                currentQuestionIndex = 0;
+                displayCurrentQuestion();
+            } else {
+                showEndPage();
+            }
+        } else {
+            currentQuestionIndex++;
+            // Affiche la question suivante ou la fin
+            if ((usingExtraQuestions && currentQuestionIndex < extraQuestions.length) || (!usingExtraQuestions && currentQuestionIndex < questions.length)) {
+                displayCurrentQuestion();
+            } else {
+                showEndPage();
+            }
+        }
+        isLoading = false;
+    }, 900);
+}
+
+// Affiche l'écran de chargement
+function showLoadingScreen() {
+    const loadingScreen = document.getElementById('loadingScreen');
+    if (loadingScreen) loadingScreen.classList.add('show');
+}
+
+// Cache l'écran de chargement
+function hideLoadingScreen() {
+    const loadingScreen = document.getElementById('loadingScreen');
+    if (loadingScreen) loadingScreen.classList.remove('show');
+}
+
+// Affiche la page de fin et masque la carte de question
+function showEndPage() {
+    const questionCard = document.getElementById('questionCard');
+    const endPage = document.getElementById('endPage');
+    if (questionCard) questionCard.style.display = 'none';
+    if (endPage) {
+        endPage.classList.add('show');
+        // Affiche juste "Fin" dans la page de fin
+        endPage.innerHTML = '<h1 class="end-title">Fin</h1>';
+    }
+}
+
+// AFFICHER LA QUESTION ACTUELLE + progression
+function displayCurrentQuestion() {
+    const questionDisplay = document.getElementById('questionDisplay');
+    const progressCounter = document.getElementById('progressCounter');
+    if (usingExtraQuestions) {
+        questionDisplay.textContent = extraQuestions[currentQuestionIndex];
+        if (progressCounter) progressCounter.textContent = `Question bonus ${currentQuestionIndex + 1}/${extraQuestions.length}`;
+    } else {
+        questionDisplay.textContent = questions[currentQuestionIndex];
+        if (progressCounter) progressCounter.textContent = `Question ${currentQuestionIndex + 1}/${questions.length}`;
+    }
 }
 
 // ENVOYER VERS DISCORD (VERSION SIMPLE)
@@ -69,55 +128,9 @@ async function sendToDiscord(questionNumber, question, answer) {
 
 /* FONCTIONS SUPPRIMÉES - Plus besoin de page de résultat */
 
-// AFFICHER LA QUESTION ACTUELLE
-function displayCurrentQuestion() {
-    const questionDisplay = document.getElementById('questionDisplay');
-    questionDisplay.textContent = questions[currentQuestionIndex];
-}
-
-// CRÉER LES PARTICULES (vos fonctions existantes)
-function createParticles() {
-    const particlesContainer = document.getElementById('particles');
-    const numberOfParticles = 50;
-    
-    for (let i = 0; i < numberOfParticles; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        particle.style.left = Math.random() * 100 + '%';
-        particle.style.top = Math.random() * 100 + '%';
-        particle.style.animationDelay = Math.random() * 8 + 's';
-        particle.style.animationDuration = (Math.random() * 5 + 5) + 's';
-        particlesContainer.appendChild(particle);
-    }
-}
-
-// FONCTION DE TEST DISCORD
-async function testDiscord() {
-    const testMessage = {
-        content: '🧪 **TEST DE CONNEXION**\n\n✅ Si vous voyez ce message, votre webhook Discord fonctionne parfaitement !\n\n🎯 Les réponses du questionnaire arriveront ici automatiquement.'
-    };
-
-    try {
-        const response = await fetch(DISCORD_WEBHOOK_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(testMessage)
-        });
-
-        if (response.ok) {
-            alert('✅ Test réussi ! Vérifiez votre Discord.');
-        } else {
-            alert('❌ Erreur. Vérifiez votre URL webhook.');
-        }
-    } catch (error) {
-        alert('❌ Erreur de connexion.');
-        console.error(error);
-    }
-}
-
 // INITIALISATION
 document.addEventListener('DOMContentLoaded', function() {
     displayCurrentQuestion();
-    createParticles();
     console.log('✅ Questionnaire initialisé !');
 });
+
