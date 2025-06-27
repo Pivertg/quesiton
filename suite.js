@@ -5,16 +5,20 @@ const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/138792927002597796
 
 // Questions prédéfinies
 const questions = [
-    "Serais tu te donner a fond pour le personne que tu aime ?",
-    "Une relation a distace te dérengerais ?",
-    "Veux tu sortie avec moi ?"
+    "Serais-tu prêt à te donner à fond pour la personne que tu aimes ?",
+    "Serais-tu prêt à attendre pour voir la personne que tu aimes ?",
+    "Une relation à distance te dérangerait-elle ?",
+    "Si tu te mettais en couple avec quelqu’un, serais-tu prêt à rester toute ta vie avec la personne que tu aimes ?",
+    "Veux-tu sortir avec moi ?"
 ];
 
 // Questions supplémentaires si OUI à la dernière question
 const extraQuestions = [
-    "Quel est ton plat préféré ?",
-    "Quelle est ta couleur favorite ?",
-    "Où aimerais-tu partir en voyage ?"
+    "Serais-tu prêt à quitter Paris pour venir me voir ?",
+    "Plus tard, tu voudrais habiter à Paris (clique sur oui) ou une autre ville te conviendrait (clique sur non) ?",
+    "Pourrais-tu être jalouse si ton mec parle ou vocalise avec d'autres filles que toi ?",
+    "As-tu des questions que tu voudrais me poser ?",
+    "Voudrais-tu que je fasse quelque chose en particulier ?"
 ];
 
 let currentQuestionIndex = 0;
@@ -81,7 +85,7 @@ function showEndPage() {
     if (endPage) {
         endPage.classList.add('show');
         // Affiche juste "Fin" dans la page de fin
-        endPage.innerHTML = '<h1 class="end-title">Fin</h1>';
+        endPage.innerHTML = '<h1 class="end-title">Fin by pivert temps passer environ 3h</h1>';
     }
 }
 
