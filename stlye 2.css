@@ -1,7 +1,7 @@
 /* Importation de votre police personnalisée */
 @font-face {
     font-family: 'MaPoliceAmour'; /* Nom que vous voulez donner à votre police */
-    src: url('fonts/HachicroUndertaleBattleFontRegular-L3zlg.ttf') format('truetype');
+    src: url('fonts/chicroUndertaleBattleFontRegular-L3zlg.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
